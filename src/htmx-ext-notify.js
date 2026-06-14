@@ -16,6 +16,7 @@
 
   function install() {
     if (installed) return;
+    if (!document.body) return;
     installed = true;
 
     injectStyles();
@@ -52,10 +53,6 @@
 
       const notification = button.closest(".hx-notify");
       if (notification) dismiss(notification);
-    });
-
-    document.body.addEventListener("hx-notify", function (event) {
-      notify(event.detail || {});
     });
   }
 
@@ -510,6 +507,10 @@
   }
 
   window.htmxNotify = notify;
+
+  document.addEventListener("hx-notify", function (event) {
+    notify(event.detail || {});
+  });
 
   if (window.htmx) {
     window.htmx.notify = notify;
