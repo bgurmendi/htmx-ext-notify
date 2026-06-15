@@ -15,269 +15,193 @@
   <script src="https://cdn.jsdelivr.net/npm/sinon@9.0.2/pkg/sinon.js"></script>
   <script src="vendor/demo-server.js"></script>
 
-  <style>
-    :root {
-      color-scheme: light dark;
-      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-    }
-
-    body {
-      max-width: 720px;
-      margin: 2rem auto;
-      padding: 0 1.5rem 6rem;
-      line-height: 1.5;
-    }
-
-    h1 {
-      margin-bottom: 0.25rem;
-    }
-
-    p.lead {
-      color: color-mix(in srgb, CanvasText 60%, transparent);
-      margin-top: 0;
-    }
-
-    section {
-      margin: 2rem 0;
-      padding: 1.25rem;
-      border: 1px solid color-mix(in srgb, CanvasText 15%, transparent);
-      border-radius: 0.75rem;
-    }
-
-    section h2 {
-      margin-top: 0;
-      font-size: 1.05rem;
-    }
-
-    .row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    button, .btn {
-      cursor: pointer;
-      padding: 0.55rem 1rem;
-      border-radius: 0.5rem;
-      border: 1px solid color-mix(in srgb, CanvasText 25%, transparent);
-      background: Canvas;
-      color: CanvasText;
-      font-size: 0.9rem;
-      font-family: inherit;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    button:hover, .btn:hover {
-      background: color-mix(in srgb, CanvasText 8%, transparent);
-    }
-
-    code {
-      background: color-mix(in srgb, CanvasText 8%, transparent);
-      padding: 0.1rem 0.35rem;
-      border-radius: 0.3rem;
-      font-size: 0.85em;
-    }
-
-    .form-group {
-      margin-bottom: 0.75rem;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 0.85rem;
-      margin-bottom: 0.25rem;
-      color: color-mix(in srgb, CanvasText 60%, transparent);
-    }
-
-    .form-group input {
-      width: 100%;
-      max-width: 20rem;
-      padding: 0.45rem 0.6rem;
-      border-radius: 0.4rem;
-      border: 1px solid color-mix(in srgb, CanvasText 25%, transparent);
-      background: Canvas;
-      color: CanvasText;
-      font-size: 0.9rem;
-    }
-
-    .btn.primary {
-      border-color: #3b82f6;
-      color: #3b82f6;
-    }
-
-    .btn.danger {
-      border-color: #ef4444;
-      color: #ef4444;
-    }
-  </style>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body hx-ext="notify">
+<body hx-ext="notify" class="max-w-2xl mx-auto p-4 pb-24 space-y-6">
 
-  <h1>htmx-notify</h1>
-  <p class="lead">Showcase de la extensión de notificaciones para htmx.</p>
+  <div>
+    <h1 class="text-2xl font-bold mb-1">htmx-notify</h1>
+    <p class="text-base-content/60">Showcase de la extensión de notificaciones para htmx.</p>
+  </div>
 
-  <section>
-    <h2>1. Click to edit con notificación del servidor</h2>
-    <p>
-      Ejemplo clásico de htmx (<code>click-to-edit</code>) con un servidor
-      simulado mediante <code>sinon.fakeServer</code>. Al guardar, la
-      respuesta del servidor incluye una cabecera <code>HX-Trigger</code>
-      con un evento <code>hx-notify</code>, que la extensión convierte
-      automáticamente en una notificación — sin necesidad de ningún
-      atributo <code>hx-notify</code> en el botón.
-    </p>
-    <div id="contact-card"></div>
-  </section>
-
-  <section>
-    <h2>2. Cabeceras <code>HX-Notify</code> / <code>HX-Trigger</code></h2>
-    <p>
-      El servidor simulado puede notificar al cliente devolviendo
-      cabeceras especiales en la respuesta, sin tocar el HTML.
-    </p>
-    <div class="row">
-      <button
-        hx-post="/demo/notify-trigger"
-        hx-swap="none">
-        Respuesta con <code>HX-Trigger: hx-notify</code>
-      </button>
-
-      <button
-        hx-post="/demo/notify-header"
-        hx-swap="none">
-        Respuesta con <code>HX-Notify</code>
-      </button>
+  <div class="card card-border bg-base-100 shadow-sm">
+    <div class="card-body">
+      <h2 class="card-title text-base">1. Click to edit con notificación del servidor</h2>
+      <p>
+        Ejemplo clásico de htmx (<code>click-to-edit</code>) con un servidor
+        simulado mediante <code>sinon.fakeServer</code>. Al guardar, la
+        respuesta del servidor incluye una cabecera <code>HX-Trigger</code>
+        con un evento <code>hx-notify</code>, que la extensión convierte
+        automáticamente en una notificación — sin necesidad de ningún
+        atributo <code>hx-notify</code> en el botón.
+      </p>
+      <div id="contact-card"></div>
     </div>
-  </section>
+  </div>
 
-  <section>
-    <h2>3. Atributos <code>hx-notify</code> / <code>hx-notify-fail</code></h2>
-    <p>
-      <code>/demo/save</code> está simulada por el servidor y responde
-      200 OK, mostrando la notificación de éxito. <code>/demo/save-error</code>
-      está simulada para responder 500, mostrando la notificación de fallo.
-    </p>
-    <div class="row">
-      <button
-        hx-post="/demo/save"
-        hx-swap="none"
-        hx-notify="Documento guardado"
-        hx-notify-title="Guardado"
-        hx-notify-type="success">
-        Guardar (éxito)
-      </button>
+  <div class="card card-border bg-base-100 shadow-sm">
+    <div class="card-body">
+      <h2 class="card-title text-base">2. Cabeceras <code>HX-Notify</code> / <code>HX-Trigger</code></h2>
+      <p>
+        El servidor simulado puede notificar al cliente devolviendo
+        cabeceras especiales en la respuesta, sin tocar el HTML.
+      </p>
+      <div class="flex flex-wrap gap-2">
+        <button class="btn"
+          hx-post="/demo/notify-trigger"
+          hx-swap="none">
+          Respuesta con <code>HX-Trigger: hx-notify</code>
+        </button>
 
-      <button
-        hx-post="/demo/save-error"
-        hx-swap="none"
-        hx-notify="Documento guardado"
-        hx-notify-fail="No se pudo guardar el documento"
-        hx-notify-fail-title="Error"
-        hx-notify-fail-type="error">
-        Guardar (falla)
-      </button>
-
-      <button
-        hx-post="/demo/save"
-        hx-swap="none"
-        hx-notify="Guardado con timeout corto"
-        hx-notify-timeout="2000">
-        Timeout corto (2s)
-      </button>
+        <button class="btn"
+          hx-post="/demo/notify-header"
+          hx-swap="none">
+          Respuesta con <code>HX-Notify</code>
+        </button>
+      </div>
     </div>
-  </section>
+  </div>
 
-  <section>
-    <h2>4. API de JavaScript — <code>htmx.notify(...)</code></h2>
-    <div class="row">
-      <button onclick="htmx.notify('Notificación simple')">Mensaje simple</button>
+  <div class="card card-border bg-base-100 shadow-sm">
+    <div class="card-body">
+      <h2 class="card-title text-base">3. Atributos <code>hx-notify</code> / <code>hx-notify-fail</code></h2>
+      <p>
+        <code>/demo/save</code> está simulada por el servidor y responde
+        200 OK, mostrando la notificación de éxito. <code>/demo/save-error</code>
+        está simulada para responder 500, mostrando la notificación de fallo.
+      </p>
+      <div class="flex flex-wrap gap-2">
+        <button class="btn btn-primary"
+          hx-post="/demo/save"
+          hx-swap="none"
+          hx-notify="Documento guardado"
+          hx-notify-title="Guardado"
+          hx-notify-type="success">
+          Guardar (éxito)
+        </button>
 
-      <button onclick="htmx.notify({
-        type: 'success',
-        title: 'Guardado',
-        message: 'El documento se guardó correctamente'
-      })">Éxito</button>
+        <button class="btn btn-error"
+          hx-post="/demo/save-error"
+          hx-swap="none"
+          hx-notify="Documento guardado"
+          hx-notify-fail="No se pudo guardar el documento"
+          hx-notify-fail-title="Error"
+          hx-notify-fail-type="error">
+          Guardar (falla)
+        </button>
 
-      <button onclick="htmx.notify({
-        type: 'error',
-        title: 'Error',
-        message: 'No se pudo guardar el documento'
-      })">Error</button>
-
-      <button onclick="htmx.notify({
-        type: 'warning',
-        title: 'Atención',
-        message: 'Tu sesión expirará pronto'
-      })">Advertencia</button>
-
-      <button onclick="htmx.notify({
-        type: 'info',
-        title: 'Información',
-        message: 'Hay una nueva versión disponible'
-      })">Info</button>
+        <button class="btn"
+          hx-post="/demo/save"
+          hx-swap="none"
+          hx-notify="Guardado con timeout corto"
+          hx-notify-timeout="2000">
+          Timeout corto (2s)
+        </button>
+      </div>
     </div>
-  </section>
+  </div>
 
-  <section>
-    <h2>5. Timeout personalizado / persistente</h2>
-    <div class="row">
-      <button onclick="htmx.notify({
-        type: 'info',
-        message: 'Esta notificación dura 10 segundos',
-        timeout: 10000
-      })">Timeout 10s</button>
+  <div class="card card-border bg-base-100 shadow-sm">
+    <div class="card-body">
+      <h2 class="card-title text-base">4. API de JavaScript — <code>htmx.notify(...)</code></h2>
+      <div class="flex flex-wrap gap-2">
+        <button class="btn" onclick="htmx.notify('Notificación simple')">Mensaje simple</button>
 
-      <button onclick="htmx.notify({
-        type: 'warning',
-        title: 'Persistente',
-        message: 'Esta notificación no se cierra sola',
-        timeout: 0
-      })">Persistente (timeout 0)</button>
+        <button class="btn btn-success" onclick="htmx.notify({
+          type: 'success',
+          title: 'Guardado',
+          message: 'El documento se guardó correctamente'
+        })">Éxito</button>
+
+        <button class="btn btn-error" onclick="htmx.notify({
+          type: 'error',
+          title: 'Error',
+          message: 'No se pudo guardar el documento'
+        })">Error</button>
+
+        <button class="btn btn-warning" onclick="htmx.notify({
+          type: 'warning',
+          title: 'Atención',
+          message: 'Tu sesión expirará pronto'
+        })">Advertencia</button>
+
+        <button class="btn btn-info" onclick="htmx.notify({
+          type: 'info',
+          title: 'Información',
+          message: 'Hay una nueva versión disponible'
+        })">Info</button>
+      </div>
     </div>
-  </section>
+  </div>
 
-  <section>
-    <h2>6. Notificaciones con acción</h2>
-    <div class="row">
-      <button onclick="htmx.notify({
-        title: 'Importación completa',
-        message: 'Revisa los registros importados',
-        type: 'success',
-        actionText: 'Ver',
-        actionHref: '#'
-      })">Acción con enlace</button>
+  <div class="card card-border bg-base-100 shadow-sm">
+    <div class="card-body">
+      <h2 class="card-title text-base">5. Timeout personalizado / persistente</h2>
+      <div class="flex flex-wrap gap-2">
+        <button class="btn btn-info" onclick="htmx.notify({
+          type: 'info',
+          message: 'Esta notificación dura 10 segundos',
+          timeout: 10000
+        })">Timeout 10s</button>
 
-      <button onclick="htmx.notify({
-        title: 'Importación completa',
-        message: 'Revisa los registros importados',
-        type: 'success',
-        actionText: 'Abrir',
-        actionHxGet: '/demo/imports',
-        actionHxTarget: '#imports-result'
-      })">Acción con hx-get</button>
+        <button class="btn btn-warning" onclick="htmx.notify({
+          type: 'warning',
+          title: 'Persistente',
+          message: 'Esta notificación no se cierra sola',
+          timeout: 0
+        })">Persistente (timeout 0)</button>
+      </div>
     </div>
-    <div id="imports-result"></div>
-  </section>
+  </div>
 
-  <section>
-    <h2>7. HTML enriquecido en el mensaje</h2>
-    <div class="row">
-      <button onclick="htmx.notify({
-        type: 'info',
-        title: 'Novedades',
-        html: 'Nueva función disponible: <strong>modo oscuro</strong>. <a href=\'#\'>Ver detalles</a>'
-      })">Notificación con HTML</button>
-    </div>
-  </section>
+  <div class="card card-border bg-base-100 shadow-sm">
+    <div class="card-body">
+      <h2 class="card-title text-base">6. Notificaciones con acción</h2>
+      <div class="flex flex-wrap gap-2">
+        <button class="btn btn-success" onclick="htmx.notify({
+          title: 'Importación completa',
+          message: 'Revisa los registros importados',
+          type: 'success',
+          actionText: 'Ver',
+          actionHref: '#'
+        })">Acción con enlace</button>
 
-  <section>
-    <h2>8. Múltiples notificaciones / centro de notificaciones</h2>
-    <div class="row">
-      <button id="burst-btn">Lanzar 5 notificaciones</button>
+        <button class="btn btn-success" onclick="htmx.notify({
+          title: 'Importación completa',
+          message: 'Revisa los registros importados',
+          type: 'success',
+          actionText: 'Abrir',
+          actionHxGet: '/demo/imports',
+          actionHxTarget: '#imports-result'
+        })">Acción con hx-get</button>
+      </div>
+      <div id="imports-result"></div>
     </div>
-    <p>Usa el icono 🔔 (esquina inferior derecha) para colapsar y expandir el centro de notificaciones.</p>
-  </section>
+  </div>
+
+  <div class="card card-border bg-base-100 shadow-sm">
+    <div class="card-body">
+      <h2 class="card-title text-base">7. HTML enriquecido en el mensaje</h2>
+      <div class="flex flex-wrap gap-2">
+        <button class="btn btn-info" onclick="htmx.notify({
+          type: 'info',
+          title: 'Novedades',
+          html: 'Nueva función disponible: <strong>modo oscuro</strong>. <a href=\'#\'>Ver detalles</a>'
+        })">Notificación con HTML</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-border bg-base-100 shadow-sm">
+    <div class="card-body">
+      <h2 class="card-title text-base">8. Múltiples notificaciones / centro de notificaciones</h2>
+      <div class="flex flex-wrap gap-2">
+        <button id="burst-btn" class="btn">Lanzar 5 notificaciones</button>
+      </div>
+      <p>Usa el icono 🔔 (esquina inferior derecha) para colapsar y expandir el centro de notificaciones.</p>
+    </div>
+  </div>
 
   <script>
     //=========================================================================
@@ -297,32 +221,34 @@
     };
 
     function displayTemplate(contact) {
-      return `<div hx-target="this" hx-swap="outerHTML">
-  <div><label>Nombre</label>: ${contact.firstName}</div>
-  <div><label>Apellido</label>: ${contact.lastName}</div>
-  <div><label>Email</label>: ${contact.email}</div>
-  <button hx-get="/contact/1/edit" class="btn primary">
+      return `<div hx-target="this" hx-swap="outerHTML" class="space-y-2">
+  <div><span class="font-semibold">Nombre</span>: ${contact.firstName}</div>
+  <div><span class="font-semibold">Apellido</span>: ${contact.lastName}</div>
+  <div><span class="font-semibold">Email</span>: ${contact.email}</div>
+  <button hx-get="/contact/1/edit" class="btn btn-primary btn-sm">
     Click para editar
   </button>
 </div>`;
     }
 
     function formTemplate(contact) {
-      return `<form hx-put="/contact/1" hx-target="this" hx-swap="outerHTML">
-  <div class="form-group">
-    <label for="firstName">Nombre</label>
-    <input type="text" id="firstName" name="firstName" value="${contact.firstName}">
+      return `<form hx-put="/contact/1" hx-target="this" hx-swap="outerHTML" class="space-y-2">
+  <label class="floating-label">
+    <span>Nombre</span>
+    <input type="text" id="firstName" name="firstName" value="${contact.firstName}" class="input">
+  </label>
+  <label class="floating-label">
+    <span>Apellido</span>
+    <input type="text" id="lastName" name="lastName" value="${contact.lastName}" class="input">
+  </label>
+  <label class="floating-label">
+    <span>Email</span>
+    <input type="email" id="email" name="email" value="${contact.email}" class="input">
+  </label>
+  <div class="flex gap-2">
+    <button class="btn btn-primary btn-sm" type="submit">Guardar</button>
+    <button class="btn btn-error btn-sm" hx-get="/contact/1">Cancelar</button>
   </div>
-  <div class="form-group">
-    <label for="lastName">Apellido</label>
-    <input type="text" id="lastName" name="lastName" value="${contact.lastName}">
-  </div>
-  <div class="form-group">
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" value="${contact.email}">
-  </div>
-  <button class="btn primary" type="submit">Guardar</button>
-  <button class="btn danger" hx-get="/contact/1">Cancelar</button>
 </form>`;
     }
 
