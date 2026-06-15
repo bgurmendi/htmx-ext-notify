@@ -3,7 +3,7 @@
 
   const DEFAULTS = {
     timeout: 5000,
-    position: "bottom-right",
+    position: "top-center",
     max: 6,
   };
 
@@ -69,7 +69,7 @@
     const item = render(options);
 
     animateStackChange(function () {
-      stack.appendChild(item);
+      stack.insertBefore(item, stack.firstChild);
       limit();
     });
 
@@ -204,7 +204,7 @@
 
     if (excess <= 0) return;
 
-    items.slice(0, excess).forEach(function (item) {
+    items.slice(-excess).forEach(function (item) {
       item.remove();
     });
   }
@@ -309,11 +309,13 @@
 
       .hx-notify-wrapper {
         position: fixed;
-        right: 1rem;
-        bottom: 1rem;
+        top: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
         width: min(26rem, calc(100vw - 2rem));
         display: flex;
         flex-direction: column;
+        align-items: center;
         gap: 0.5rem;
         pointer-events: none;
       }
@@ -321,6 +323,7 @@
       .hx-notify-stack {
         display: flex;
         flex-direction: column;
+        width: 100%;
         gap: 0.75rem;
         pointer-events: none;
       }
@@ -335,7 +338,7 @@
         color: CanvasText;
         box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 18%);
         opacity: 0;
-        transform: translateY(0.75rem) scale(0.98);
+        transform: translateY(-0.75rem) scale(0.98);
       }
 
       .hx-notify-visible {
@@ -432,7 +435,7 @@
       @keyframes hx-notify-enter {
         from {
           opacity: 0;
-          transform: translateY(0.75rem) scale(0.98);
+          transform: translateY(-0.75rem) scale(0.98);
         }
 
         to {
@@ -449,7 +452,7 @@
 
         to {
           opacity: 0;
-          transform: translateY(0.5rem) scale(0.98);
+          transform: translateY(-0.5rem) scale(0.98);
         }
       }
 
@@ -457,6 +460,7 @@
         .hx-notify-wrapper {
           left: 1rem;
           right: 1rem;
+          transform: none;
           width: auto;
         }
       }
