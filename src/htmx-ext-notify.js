@@ -24,11 +24,11 @@
 
     layer.innerHTML = `
       <div class="hx-notify-wrapper" data-hx-notify-position="${DEFAULTS.position}">
-        <div class="hx-notify-stack"></div>
-
         <button type="button" class="hx-notify-dismiss-all" title="Descartar todas las notificaciones" aria-label="Descartar todas las notificaciones">
           ×
         </button>
+
+        <div class="hx-notify-stack"></div>
       </div>
     `;
 
@@ -391,10 +391,12 @@
 
       .hx-notify-dismiss-all {
         align-self: flex-end;
+        position: relative;
+        margin-right: 0.55rem;
         pointer-events: auto;
         cursor: pointer;
-        width: 2rem;
-        height: 2rem;
+        width: 1.75rem;
+        height: 1.75rem;
         display: none;
         align-items: center;
         justify-content: center;
@@ -408,7 +410,7 @@
         box-shadow: 0 0.5rem 1.5rem rgb(0 0 0 / 18%);
       }
 
-      .hx-notify-stack:has(.hx-notify) ~ .hx-notify-dismiss-all {
+      .hx-notify-dismiss-all:has(~ .hx-notify-stack .hx-notify:nth-child(2)) {
         display: inline-flex;
       }
 
