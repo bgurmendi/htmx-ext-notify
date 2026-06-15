@@ -1,5 +1,7 @@
 # htmx-notify
 
+[Repository](https://github.com/bgurmendi/htmx-ext-notify) · [Online demo](https://bgurmendi.github.io/htmx-ext-notify/demo.html)
+
 A lightweight notification extension for htmx.
 
 `htmx-notify` provides toast-style notifications that can be triggered from:
@@ -397,3 +399,9 @@ to announce updates without interrupting the user.
 * Supports actions
 * Supports persistent notifications
 * Supports notification center collapse
+
+---
+
+# License
+
+[MIT](LICENSE).
