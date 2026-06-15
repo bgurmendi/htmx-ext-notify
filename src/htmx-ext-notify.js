@@ -257,7 +257,7 @@
   }
 
   function handleAfterRequest(event) {
-    const elt = event.detail.elt;
+    const elt = event.detail.requestConfig?.elt ?? event.detail.elt;
     const xhr = event.detail.xhr;
     const ok = event.detail.successful;
 
