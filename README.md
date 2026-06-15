@@ -10,7 +10,7 @@ A lightweight notification extension for htmx.
 * JavaScript (`htmx.notify(...)`)
 * Server-side events (`HX-Trigger`)
 
-Notifications appear in the bottom-right corner of the screen, stack automatically, support actions, auto-dismiss, and can be collapsed into a compact notification icon.
+Notifications appear in the bottom-right corner of the screen, stack automatically, support actions, auto-dismiss, and can be dismissed individually or all at once.
 
 No framework required.
 
@@ -316,31 +316,26 @@ document.body.addEventListener("user-created", function () {
 
 ---
 
-# Collapsible Notification Center
+# Dismissing Notifications
 
-Notifications can be collapsed into a compact icon.
+Each notification has its own × button to dismiss it individually.
 
-When expanded:
+When at least one notification is visible, a "dismiss all" × button
+appears below the stack. Hovering over it shows a tooltip ("Dismiss
+all notifications") and clicking it dismisses every visible
+notification at once.
 
 ```txt
 ┌─────────────────────┐
-│ Notification        │
+│ Notification      × │
 └─────────────────────┘
 
 ┌─────────────────────┐
-│ Notification        │
+│ Notification      × │
 └─────────────────────┘
+
+                    (×) ← dismiss all
 ```
-
-When collapsed:
-
-```txt
-🔔 2
-```
-
-The notification count remains visible.
-
-Notifications continue accumulating while collapsed.
 
 ---
 
@@ -398,7 +393,7 @@ to announce updates without interrupting the user.
 * Supports multiple concurrent notifications
 * Supports actions
 * Supports persistent notifications
-* Supports notification center collapse
+* Supports dismissing notifications individually or all at once
 
 ---
 
