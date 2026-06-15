@@ -1,0 +1,36 @@
+{
+  "name": "htmx-ext-notify",
+  "version": "0.1.0",
+  "description": "A lightweight toast notification extension for htmx.",
+  "main": "src/htmx-ext-notify.js",
+  "files": [
+    "src",
+    "LICENSE",
+    "README.md"
+  ],
+  "keywords": [
+    "htmx",
+    "htmx-extension",
+    "notification",
+    "toast",
+    "alert"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/bgurmendi/htmx-ext-notify#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bgurmendi/htmx-ext-notify.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bgurmendi/htmx-ext-notify/issues"
+  },
+  "dependencies": {
+    "playwright": "^1.60.0"
+  },
+  "devDependencies": {
+    "monocart-coverage-reports": "^2.12.12"
+  }
+}

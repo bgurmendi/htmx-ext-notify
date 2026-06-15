@@ -1,6 +1,10 @@
-# htmx-notify
+# htmx-ext-notify
 
 [Repository](https://github.com/bgurmendi/htmx-ext-notify) · [Online demo](https://bgurmendi.github.io/htmx-ext-notify/demo.html)
+
+[![Tests](https://github.com/bgurmendi/htmx-ext-notify/actions/workflows/test.yml/badge.svg)](https://github.com/bgurmendi/htmx-ext-notify/actions/workflows/test.yml)
+[![Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/bgurmendi/htmx-ext-notify/develop/badges/coverage.json)](#code-coverage)
+[![npm version](https://img.shields.io/npm/v/htmx-ext-notify.svg)](https://www.npmjs.com/package/htmx-ext-notify)
 
 A lightweight notification extension for htmx.
 
@@ -18,12 +22,27 @@ No framework required.
 
 # Installation
 
+The extension is a single, dependency-free JavaScript file (besides htmx itself).
+
+### Via `<script>` tag
+
 ```html
 <script src="https://unpkg.com/htmx.org"></script>
-<script src="htmx-notify.js"></script>
+<script src="https://unpkg.com/htmx-ext-notify/src/htmx-ext-notify.js"></script>
 ```
 
-Enable the extension:
+### Via npm
+
+```bash
+npm install htmx-ext-notify
+```
+
+```html
+<script src="https://unpkg.com/htmx.org"></script>
+<script src="/node_modules/htmx-ext-notify/src/htmx-ext-notify.js"></script>
+```
+
+### Enable the extension
 
 ```html
 <body hx-ext="notify">
@@ -394,6 +413,42 @@ to announce updates without interrupting the user.
 * Supports actions
 * Supports persistent notifications
 * Supports dismissing notifications individually or all at once
+
+---
+
+# Tests
+
+End-to-end tests use [Playwright](https://playwright.dev) (via Node's built-in test runner) to drive the demo in a real browser and check that notifications behave as documented above: success/failure attributes, `HX-Trigger`/`HX-Notify` headers, the JS API, timeouts, actions, rich HTML, dismissing, and stacking.
+
+1. Install dependencies (only needed once):
+   ```bash
+   npm install
+   npx playwright install chromium
+   ```
+2. Run the tests:
+   ```bash
+   npm test
+   ```
+
+The tests spin up a local static server for the repository and open `demo.html` in headless Chromium — no manual server setup needed.
+
+To watch the tests run in a visible browser window (useful while debugging), set `HEADED=1`. Each action is slowed down by 1 second by default; override with `SLOWMO` (milliseconds):
+
+```bash
+HEADED=1 npm test
+HEADED=1 SLOWMO=300 npm test
+```
+
+Each run writes screenshots taken at key points plus the page's console output to `test/artifacts/<test-name>/`. These are git-ignored, regenerated on every run, and are the quickest way to check what a test actually saw on screen.
+
+## Code coverage
+
+Each run also collects V8 coverage of [`src/htmx-ext-notify.js`](src/htmx-ext-notify.js) and writes a report to `coverage/` (git-ignored):
+
+- `coverage/index.html` — open in a browser for an annotated, line-by-line view.
+- `coverage/lcov.info` — for tooling/CI integrations that consume LCOV.
+
+A summary table is also printed at the end of `npm test`.
 
 ---
 
