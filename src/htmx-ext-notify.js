@@ -298,6 +298,7 @@
       .hx-notify-layer {
         position: fixed;
         inset: 0;
+        z-index: 2000;
         width: auto;
         height: auto;
         max-width: none;
