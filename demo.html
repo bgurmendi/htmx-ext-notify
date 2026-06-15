@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +11,7 @@
   <!-- htmx-notify extension -->
   <script src="src/htmx-ext-notify.js"></script>
 
-  <!-- Servidor de demostración: sinon.fakeServer, igual que en los ejemplos de htmx.org -->
+  <!-- Demo server: sinon.fakeServer, same as in the htmx.org examples -->
   <script src="https://cdn.jsdelivr.net/npm/sinon@9.0.2/pkg/sinon.js"></script>
   <script src="vendor/demo-server.js"></script>
 
@@ -22,19 +22,19 @@
 
   <div>
     <h1 class="text-2xl font-bold mb-1">htmx-notify</h1>
-    <p class="text-base-content/60">Showcase de la extensión de notificaciones para htmx.</p>
+    <p class="text-base-content/60">Showcase for the htmx notification extension.</p>
   </div>
 
   <div class="card card-border bg-base-100 shadow-sm">
     <div class="card-body">
-      <h2 class="card-title text-base">1. Click to edit con notificación del servidor</h2>
+      <h2 class="card-title text-base">1. Click to edit with server notification</h2>
       <p>
-        Ejemplo clásico de htmx (<code>click-to-edit</code>) con un servidor
-        simulado mediante <code>sinon.fakeServer</code>. Al guardar, la
-        respuesta del servidor incluye una cabecera <code>HX-Trigger</code>
-        con un evento <code>hx-notify</code>, que la extensión convierte
-        automáticamente en una notificación — sin necesidad de ningún
-        atributo <code>hx-notify</code> en el botón.
+        Classic htmx example (<code>click-to-edit</code>) with a simulated
+        server using <code>sinon.fakeServer</code>. On save, the server
+        response includes an <code>HX-Trigger</code> header with an
+        <code>hx-notify</code> event, which the extension automatically
+        turns into a notification — no <code>hx-notify</code> attribute
+        needed on the button.
       </p>
       <div id="contact-card"></div>
     </div>
@@ -42,22 +42,22 @@
 
   <div class="card card-border bg-base-100 shadow-sm">
     <div class="card-body">
-      <h2 class="card-title text-base">2. Cabeceras <code>HX-Notify</code> / <code>HX-Trigger</code></h2>
+      <h2 class="card-title text-base">2. <code>HX-Notify</code> / <code>HX-Trigger</code> headers</h2>
       <p>
-        El servidor simulado puede notificar al cliente devolviendo
-        cabeceras especiales en la respuesta, sin tocar el HTML.
+        The simulated server can notify the client by returning special
+        headers in the response, without touching the HTML.
       </p>
       <div class="flex flex-wrap gap-2">
         <button class="btn"
           hx-post="/demo/notify-trigger"
           hx-swap="none">
-          Respuesta con <code>HX-Trigger: hx-notify</code>
+          Response with <code>HX-Trigger: hx-notify</code>
         </button>
 
         <button class="btn"
           hx-post="/demo/notify-header"
           hx-swap="none">
-          Respuesta con <code>HX-Notify</code>
+          Response with <code>HX-Notify</code>
         </button>
       </div>
     </div>
@@ -65,38 +65,38 @@
 
   <div class="card card-border bg-base-100 shadow-sm">
     <div class="card-body">
-      <h2 class="card-title text-base">3. Atributos <code>hx-notify</code> / <code>hx-notify-fail</code></h2>
+      <h2 class="card-title text-base">3. <code>hx-notify</code> / <code>hx-notify-fail</code> attributes</h2>
       <p>
-        <code>/demo/save</code> está simulada por el servidor y responde
-        200 OK, mostrando la notificación de éxito. <code>/demo/save-error</code>
-        está simulada para responder 500, mostrando la notificación de fallo.
+        <code>/demo/save</code> is simulated by the server and responds
+        200 OK, showing the success notification. <code>/demo/save-error</code>
+        is simulated to respond 500, showing the failure notification.
       </p>
       <div class="flex flex-wrap gap-2">
         <button class="btn btn-primary"
           hx-post="/demo/save"
           hx-swap="none"
-          hx-notify="Documento guardado"
-          hx-notify-title="Guardado"
+          hx-notify="Document saved"
+          hx-notify-title="Saved"
           hx-notify-type="success">
-          Guardar (éxito)
+          Save (success)
         </button>
 
         <button class="btn btn-error"
           hx-post="/demo/save-error"
           hx-swap="none"
-          hx-notify="Documento guardado"
-          hx-notify-fail="No se pudo guardar el documento"
+          hx-notify="Document saved"
+          hx-notify-fail="Unable to save the document"
           hx-notify-fail-title="Error"
           hx-notify-fail-type="error">
-          Guardar (falla)
+          Save (failure)
         </button>
 
         <button class="btn"
           hx-post="/demo/save"
           hx-swap="none"
-          hx-notify="Guardado con timeout corto"
+          hx-notify="Saved with short timeout"
           hx-notify-timeout="2000">
-          Timeout corto (2s)
+          Short timeout (2s)
         </button>
       </div>
     </div>
@@ -104,32 +104,32 @@
 
   <div class="card card-border bg-base-100 shadow-sm">
     <div class="card-body">
-      <h2 class="card-title text-base">4. API de JavaScript — <code>htmx.notify(...)</code></h2>
+      <h2 class="card-title text-base">4. JavaScript API — <code>htmx.notify(...)</code></h2>
       <div class="flex flex-wrap gap-2">
-        <button class="btn" onclick="htmx.notify('Notificación simple')">Mensaje simple</button>
+        <button class="btn" onclick="htmx.notify('Simple notification')">Simple message</button>
 
         <button class="btn btn-success" onclick="htmx.notify({
           type: 'success',
-          title: 'Guardado',
-          message: 'El documento se guardó correctamente'
-        })">Éxito</button>
+          title: 'Saved',
+          message: 'The document was saved successfully'
+        })">Success</button>
 
         <button class="btn btn-error" onclick="htmx.notify({
           type: 'error',
           title: 'Error',
-          message: 'No se pudo guardar el documento'
+          message: 'Unable to save the document'
         })">Error</button>
 
         <button class="btn btn-warning" onclick="htmx.notify({
           type: 'warning',
-          title: 'Atención',
-          message: 'Tu sesión expirará pronto'
-        })">Advertencia</button>
+          title: 'Warning',
+          message: 'Your session is about to expire'
+        })">Warning</button>
 
         <button class="btn btn-info" onclick="htmx.notify({
           type: 'info',
-          title: 'Información',
-          message: 'Hay una nueva versión disponible'
+          title: 'Information',
+          message: 'A new version is available'
         })">Info</button>
       </div>
     </div>
@@ -137,44 +137,44 @@
 
   <div class="card card-border bg-base-100 shadow-sm">
     <div class="card-body">
-      <h2 class="card-title text-base">5. Timeout personalizado / persistente</h2>
+      <h2 class="card-title text-base">5. Custom / persistent timeout</h2>
       <div class="flex flex-wrap gap-2">
         <button class="btn btn-info" onclick="htmx.notify({
           type: 'info',
-          message: 'Esta notificación dura 10 segundos',
+          message: 'This notification lasts 10 seconds',
           timeout: 10000
-        })">Timeout 10s</button>
+        })">10s timeout</button>
 
         <button class="btn btn-warning" onclick="htmx.notify({
           type: 'warning',
-          title: 'Persistente',
-          message: 'Esta notificación no se cierra sola',
+          title: 'Persistent',
+          message: 'This notification does not close on its own',
           timeout: 0
-        })">Persistente (timeout 0)</button>
+        })">Persistent (timeout 0)</button>
       </div>
     </div>
   </div>
 
   <div class="card card-border bg-base-100 shadow-sm">
     <div class="card-body">
-      <h2 class="card-title text-base">6. Notificaciones con acción</h2>
+      <h2 class="card-title text-base">6. Notifications with an action</h2>
       <div class="flex flex-wrap gap-2">
         <button class="btn btn-success" onclick="htmx.notify({
-          title: 'Importación completa',
-          message: 'Revisa los registros importados',
+          title: 'Import complete',
+          message: 'Review the imported records',
           type: 'success',
-          actionText: 'Ver',
+          actionText: 'View',
           actionHref: '#'
-        })">Acción con enlace</button>
+        })">Action with link</button>
 
         <button class="btn btn-success" onclick="htmx.notify({
-          title: 'Importación completa',
-          message: 'Revisa los registros importados',
+          title: 'Import complete',
+          message: 'Review the imported records',
           type: 'success',
-          actionText: 'Abrir',
+          actionText: 'Open',
           actionHxGet: '/demo/imports',
           actionHxTarget: '#imports-result'
-        })">Acción con hx-get</button>
+        })">Action with hx-get</button>
       </div>
       <div id="imports-result"></div>
     </div>
@@ -182,30 +182,36 @@
 
   <div class="card card-border bg-base-100 shadow-sm">
     <div class="card-body">
-      <h2 class="card-title text-base">7. HTML enriquecido en el mensaje</h2>
+      <h2 class="card-title text-base">7. Rich HTML in the message</h2>
       <div class="flex flex-wrap gap-2">
         <button class="btn btn-info" onclick="htmx.notify({
           type: 'info',
-          title: 'Novedades',
-          html: 'Nueva función disponible: <strong>modo oscuro</strong>. <a href=\'#\'>Ver detalles</a>'
-        })">Notificación con HTML</button>
+          title: 'News',
+          html: 'New feature available: <strong>dark mode</strong>. <a href=\'#\'>See details</a>'
+        })">Notification with HTML</button>
       </div>
     </div>
   </div>
 
   <div class="card card-border bg-base-100 shadow-sm">
     <div class="card-body">
-      <h2 class="card-title text-base">8. Múltiples notificaciones / centro de notificaciones</h2>
+      <h2 class="card-title text-base">8. Multiple notifications / notification stack</h2>
       <div class="flex flex-wrap gap-2">
-        <button id="burst-btn" class="btn">Lanzar 5 notificaciones</button>
+        <button id="burst-btn" class="btn">Fire 5 notifications</button>
       </div>
-      <p>Usa el icono 🔔 (esquina inferior derecha) para colapsar y expandir el centro de notificaciones.</p>
+      <p>
+        Notifications appear at the top-center of the screen and stack
+        downward. Once at least one notification is visible, a
+        "dismiss all" button (trash icon) appears above the stack — hover
+        over it to see the tooltip, or click it to dismiss every visible
+        notification at once.
+      </p>
     </div>
   </div>
 
   <script>
     //=========================================================================
-    // Servidor de demostración (sinon.fakeServer)
+    // Demo server (sinon.fakeServer)
     //=========================================================================
     var onGet = demoServer.onGet;
     var onPost = demoServer.onPost;
@@ -222,11 +228,11 @@
 
     function displayTemplate(contact) {
       return `<div hx-target="this" hx-swap="outerHTML" class="space-y-2">
-  <div><span class="font-semibold">Nombre</span>: ${contact.firstName}</div>
-  <div><span class="font-semibold">Apellido</span>: ${contact.lastName}</div>
+  <div><span class="font-semibold">First name</span>: ${contact.firstName}</div>
+  <div><span class="font-semibold">Last name</span>: ${contact.lastName}</div>
   <div><span class="font-semibold">Email</span>: ${contact.email}</div>
   <button hx-get="/contact/1/edit" class="btn btn-primary btn-sm">
-    Click para editar
+    Click to edit
   </button>
 </div>`;
     }
@@ -234,11 +240,11 @@
     function formTemplate(contact) {
       return `<form hx-put="/contact/1" hx-target="this" hx-swap="outerHTML" class="space-y-2">
   <label class="floating-label">
-    <span>Nombre</span>
+    <span>First name</span>
     <input type="text" id="firstName" name="firstName" value="${contact.firstName}" class="input">
   </label>
   <label class="floating-label">
-    <span>Apellido</span>
+    <span>Last name</span>
     <input type="text" id="lastName" name="lastName" value="${contact.lastName}" class="input">
   </label>
   <label class="floating-label">
@@ -246,8 +252,8 @@
     <input type="email" id="email" name="email" value="${contact.email}" class="input">
   </label>
   <div class="flex gap-2">
-    <button class="btn btn-primary btn-sm" type="submit">Guardar</button>
-    <button class="btn btn-error btn-sm" hx-get="/contact/1">Cancelar</button>
+    <button class="btn btn-primary btn-sm" type="submit">Save</button>
+    <button class="btn btn-error btn-sm" hx-get="/contact/1">Cancel</button>
   </div>
 </form>`;
     }
@@ -267,8 +273,8 @@
 
       headers["HX-Trigger"] = JSON.stringify({
         "hx-notify": {
-          title: "Guardado",
-          message: "Contacto actualizado correctamente",
+          title: "Saved",
+          message: "Contact updated successfully",
           type: "success",
         },
       });
@@ -280,39 +286,39 @@
     contactCard.innerHTML = displayTemplate(contact);
     htmx.process(contactCard);
 
-    // --- 2. Cabeceras HX-Notify / HX-Trigger -------------------------------
+    // --- 2. HX-Notify / HX-Trigger headers ---------------------------------
 
     onPost("/demo/notify-trigger", function (request, params, headers) {
       headers["HX-Trigger"] = JSON.stringify({
         "hx-notify": {
-          title: "Importación completa",
-          message: "Se importaron 42 registros nuevos",
+          title: "Import complete",
+          message: "42 new records were imported",
           type: "success",
         },
       });
     });
 
     onPost("/demo/notify-header", function (request, params, headers) {
-      headers["HX-Notify"] = "Hay una nueva versión disponible";
+      headers["HX-Notify"] = "A new version is available";
       headers["HX-Notify-Type"] = "info";
-      headers["HX-Notify-Title"] = "Información";
+      headers["HX-Notify-Title"] = "Information";
       headers["HX-Notify-Timeout"] = "8000";
     });
 
-    // --- 3. Atributos hx-notify / hx-notify-fail ---------------------------
+    // --- 3. hx-notify / hx-notify-fail attributes ---------------------------
 
     onPost("/demo/save", function () {});
     fail("POST", "/demo/save-error", 500, function () {
       return "Internal Server Error";
     });
 
-    // --- 6. Notificaciones con acción --------------------------------------
+    // --- 6. Notifications with an action ------------------------------------
 
     onGet("/demo/imports", function () {
-      return "<p>Registros importados: 42</p>";
+      return "<p>Imported records: 42</p>";
     });
 
-    // --- 8. Múltiples notificaciones ----------------------------------------
+    // --- 8. Multiple notifications -------------------------------------------
 
     document.getElementById("burst-btn").addEventListener("click", function () {
       const types = ["info", "success", "warning", "error", "info"];
@@ -320,8 +326,8 @@
         setTimeout(function () {
           htmx.notify({
             type: type,
-            title: "Notificación " + (i + 1),
-            message: "Esta es la notificación número " + (i + 1),
+            title: "Notification " + (i + 1),
+            message: "This is notification number " + (i + 1),
           });
         }, i * 150);
       });
