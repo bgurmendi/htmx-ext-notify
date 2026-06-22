@@ -12,12 +12,12 @@ function badgeColor(pct) {
 
 function createCoverageReport() {
   return MCR({
-    name: "htmx-ext-notify coverage",
+    name: "htmx-ext-toast coverage",
     outputDir: "coverage",
     reports: ["v8", "console-summary", "lcovonly"],
     // Only the extension itself matters for coverage, not htmx, the demo
     // mock server, or the browser's own scripts.
-    entryFilter: (entry) => entry.url.includes("/src/htmx-ext-notify.js"),
+    entryFilter: (entry) => entry.url.includes("/src/htmx-ext-toast.js"),
     // Writes a shields.io endpoint badge so the README coverage badge
     // stays up to date without an external coverage service.
     onEnd: (coverageResults) => {

@@ -1,8 +1,8 @@
 {
-  "name": "htmx-ext-notify",
+  "name": "htmx-ext-toast",
   "version": "0.1.0",
   "description": "A lightweight toast notification extension for htmx.",
-  "main": "src/htmx-ext-notify.js",
+  "main": "src/htmx-ext-toast.js",
   "files": [
     "src",
     "LICENSE",
@@ -19,13 +19,13 @@
     "test": "node --test test/*.test.js"
   },
   "license": "MIT",
-  "homepage": "https://github.com/bgurmendi/htmx-ext-notify#readme",
+  "homepage": "https://github.com/bgurmendi/htmx-ext-toast#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bgurmendi/htmx-ext-notify.git"
+    "url": "git+https://github.com/bgurmendi/htmx-ext-toast.git"
   },
   "bugs": {
-    "url": "https://github.com/bgurmendi/htmx-ext-notify/issues"
+    "url": "https://github.com/bgurmendi/htmx-ext-toast/issues"
   },
   "dependencies": {
     "playwright": "^1.60.0"

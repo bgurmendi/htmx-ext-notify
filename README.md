@@ -1,17 +1,17 @@
-# htmx-ext-notify
+# htmx-ext-toast
 
-[Repository](https://github.com/bgurmendi/htmx-ext-notify) · [Online demo](https://bgurmendi.github.io/htmx-ext-notify/demo.html)
+[Repository](https://github.com/bgurmendi/htmx-ext-toast) · [Online demo](https://bgurmendi.github.io/htmx-ext-toast/demo.html)
 
-[![Tests](https://github.com/bgurmendi/htmx-ext-notify/actions/workflows/test.yml/badge.svg)](https://github.com/bgurmendi/htmx-ext-notify/actions/workflows/test.yml)
-[![Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/bgurmendi/htmx-ext-notify/develop/badges/coverage.json)](#code-coverage)
-[![npm version](https://img.shields.io/npm/v/htmx-ext-notify.svg)](https://www.npmjs.com/package/htmx-ext-notify)
+[![Tests](https://github.com/bgurmendi/htmx-ext-toast/actions/workflows/test.yml/badge.svg)](https://github.com/bgurmendi/htmx-ext-toast/actions/workflows/test.yml)
+[![Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/bgurmendi/htmx-ext-toast/develop/badges/coverage.json)](#code-coverage)
+[![npm version](https://img.shields.io/npm/v/htmx-ext-toast.svg)](https://www.npmjs.com/package/htmx-ext-toast)
 
 A lightweight notification extension for htmx.
 
-`htmx-notify` provides toast-style notifications that can be triggered from:
+`htmx-toast` provides toast-style notifications that can be triggered from:
 
-* HTML attributes (`hx-notify`, `hx-notify-fail`)
-* JavaScript (`htmx.notify(...)`)
+* HTML attributes (`hx-toast`, `hx-toast-fail`)
+* JavaScript (`htmx.toast(...)`)
 * Server-side events (`HX-Trigger`)
 
 Notifications appear at the top-center of the screen, stack automatically, support actions, auto-dismiss, and can be dismissed individually or all at once.
@@ -28,24 +28,24 @@ The extension is a single, dependency-free JavaScript file (besides htmx itself)
 
 ```html
 <script src="https://unpkg.com/htmx.org"></script>
-<script src="https://unpkg.com/htmx-ext-notify/src/htmx-ext-notify.js"></script>
+<script src="https://unpkg.com/htmx-ext-toast/src/htmx-ext-toast.js"></script>
 ```
 
 ### Via npm
 
 ```bash
-npm install htmx-ext-notify
+npm install htmx-ext-toast
 ```
 
 ```html
 <script src="https://unpkg.com/htmx.org"></script>
-<script src="/node_modules/htmx-ext-notify/src/htmx-ext-notify.js"></script>
+<script src="/node_modules/htmx-ext-toast/src/htmx-ext-toast.js"></script>
 ```
 
 ### Enable the extension
 
 ```html
-<body hx-ext="notify">
+<body hx-ext="toast">
 ```
 
 ---
@@ -57,7 +57,7 @@ Show a notification when a request succeeds:
 ```html
 <button
     hx-post="/save"
-    hx-notify="Document saved">
+    hx-toast="Document saved">
     Save
 </button>
 ```
@@ -67,8 +67,8 @@ Show a different notification when the request fails:
 ```html
 <button
     hx-post="/save"
-    hx-notify="Document saved"
-    hx-notify-fail="Unable to save document">
+    hx-toast="Document saved"
+    hx-toast-fail="Unable to save document">
     Save
 </button>
 ```
@@ -90,7 +90,7 @@ No notification markup is required.
 ```html
 <form
     hx-post="/profile"
-    hx-notify="Profile updated">
+    hx-toast="Profile updated">
 </form>
 ```
 
@@ -109,7 +109,7 @@ is displayed automatically.
 ```html
 <form
     hx-post="/profile"
-    hx-notify-fail="Failed to update profile">
+    hx-toast-fail="Failed to update profile">
 </form>
 ```
 
@@ -130,8 +130,8 @@ Success:
 ```html
 <button
     hx-post="/save"
-    hx-notify="Saved"
-    hx-notify-type="success">
+    hx-toast="Saved"
+    hx-toast-type="success">
 </button>
 ```
 
@@ -140,8 +140,8 @@ Failure:
 ```html
 <button
     hx-post="/save"
-    hx-notify-fail="Save failed"
-    hx-notify-fail-type="error">
+    hx-toast-fail="Save failed"
+    hx-toast-fail-type="error">
 </button>
 ```
 
@@ -161,8 +161,8 @@ info
 ```html
 <button
     hx-post="/save"
-    hx-notify="Document saved"
-    hx-notify-title="Saved">
+    hx-toast="Document saved"
+    hx-toast-title="Saved">
 </button>
 ```
 
@@ -188,15 +188,15 @@ Custom timeout:
 ```html
 <button
     hx-post="/save"
-    hx-notify="Saved"
-    hx-notify-timeout="10000">
+    hx-toast="Saved"
+    hx-toast-timeout="10000">
 </button>
 ```
 
 Disable auto-dismiss:
 
 ```js
-htmx.notify({
+htmx.toast({
     message: "Persistent notification",
     timeout: 0
 });
@@ -209,13 +209,13 @@ htmx.notify({
 Simple form:
 
 ```js
-htmx.notify("Document saved");
+htmx.toast("Document saved");
 ```
 
 Full form:
 
 ```js
-htmx.notify({
+htmx.toast({
     type: "success",
     title: "Saved",
     message: "Document saved successfully",
@@ -230,7 +230,7 @@ htmx.notify({
 Actions can trigger navigation, htmx requests, or custom behavior.
 
 ```js
-htmx.notify({
+htmx.toast({
     title: "Import complete",
     message: "Review imported records",
     actionText: "View",
@@ -241,7 +241,7 @@ htmx.notify({
 Or:
 
 ```js
-htmx.notify({
+htmx.toast({
     title: "Import complete",
     message: "Review imported records",
     actionText: "Open",
@@ -260,7 +260,7 @@ Response:
 
 ```http
 HX-Trigger: {
-  "hx-notify": {
+  "hx-toast": {
     "message": "Document saved",
     "type": "success"
   }
@@ -270,7 +270,7 @@ HX-Trigger: {
 The extension automatically listens for:
 
 ```txt
-hx-notify
+hx-toast
 ```
 
 and creates the notification.
@@ -279,7 +279,7 @@ Full example:
 
 ```http
 HX-Trigger: {
-  "hx-notify": {
+  "hx-toast": {
     "title": "Saved",
     "message": "Document saved successfully",
     "type": "success"
@@ -294,19 +294,19 @@ HX-Trigger: {
 You may also use direct response headers.
 
 ```http
-HX-Notify: Document saved
-HX-Notify-Type: success
-HX-Notify-Title: Saved
-HX-Notify-Timeout: 5000
+HX-Toast: Document saved
+HX-Toast-Type: success
+HX-Toast-Title: Saved
+HX-Toast-Timeout: 5000
 ```
 
 Supported headers:
 
 ```txt
-HX-Notify
-HX-Notify-Type
-HX-Notify-Title
-HX-Notify-Timeout
+HX-Toast
+HX-Toast-Type
+HX-Toast-Title
+HX-Toast-Timeout
 ```
 
 ---
@@ -329,7 +329,7 @@ Client:
 
 ```js
 document.body.addEventListener("user-created", function () {
-    htmx.notify("User created");
+    htmx.toast("User created");
 });
 ```
 
@@ -418,7 +418,7 @@ to announce updates without interrupting the user.
 
 # Tests
 
-End-to-end tests use [Playwright](https://playwright.dev) (via Node's built-in test runner) to drive the demo in a real browser and check that notifications behave as documented above: success/failure attributes, `HX-Trigger`/`HX-Notify` headers, the JS API, timeouts, actions, rich HTML, dismissing, and stacking.
+End-to-end tests use [Playwright](https://playwright.dev) (via Node's built-in test runner) to drive the demo in a real browser and check that notifications behave as documented above: success/failure attributes, `HX-Trigger`/`HX-Toast` headers, the JS API, timeouts, actions, rich HTML, dismissing, and stacking.
 
 1. Install dependencies (only needed once):
    ```bash
@@ -443,7 +443,7 @@ Each run writes screenshots taken at key points plus the page's console output t
 
 ## Code coverage
 
-Each run also collects V8 coverage of [`src/htmx-ext-notify.js`](src/htmx-ext-notify.js) and writes a report to `coverage/` (git-ignored):
+Each run also collects V8 coverage of [`src/htmx-ext-toast.js`](src/htmx-ext-toast.js) and writes a report to `coverage/` (git-ignored):
 
 - `coverage/index.html` — open in a browser for an annotated, line-by-line view.
 - `coverage/lcov.info` — for tooling/CI integrations that consume LCOV.

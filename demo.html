@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>htmx-notify · Showcase</title>
+  <title>htmx-toast · Showcase</title>
 
   <!-- htmx -->
   <script src="https://unpkg.com/htmx.org@2.0.4"></script>
 
-  <!-- htmx-notify extension -->
-  <script src="src/htmx-ext-notify.js"></script>
+  <!-- htmx-toast extension -->
+  <script src="src/htmx-ext-toast.js"></script>
 
   <!-- Demo server: sinon.fakeServer, same as in the htmx.org examples -->
   <script src="https://cdn.jsdelivr.net/npm/sinon@9.0.2/pkg/sinon.js"></script>
@@ -18,10 +18,10 @@
   <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body hx-ext="notify" class="max-w-2xl mx-auto p-4 pb-24 space-y-6">
+<body hx-ext="toast" class="max-w-2xl mx-auto p-4 pb-24 space-y-6">
 
   <div>
-    <h1 class="text-2xl font-bold mb-1">htmx-notify</h1>
+    <h1 class="text-2xl font-bold mb-1">htmx-toast</h1>
     <p class="text-base-content/60">Showcase for the htmx notification extension.</p>
   </div>
 
@@ -32,8 +32,8 @@
         Classic htmx example (<code>click-to-edit</code>) with a simulated
         server using <code>sinon.fakeServer</code>. On save, the server
         response includes an <code>HX-Trigger</code> header with an
-        <code>hx-notify</code> event, which the extension automatically
-        turns into a notification — no <code>hx-notify</code> attribute
+        <code>hx-toast</code> event, which the extension automatically
+        turns into a notification — no <code>hx-toast</code> attribute
         needed on the button.
       </p>
       <div id="contact-card"></div>
@@ -42,22 +42,22 @@
 
   <div class="card card-border bg-base-100 shadow-sm">
     <div class="card-body">
-      <h2 class="card-title text-base">2. <code>HX-Notify</code> / <code>HX-Trigger</code> headers</h2>
+      <h2 class="card-title text-base">2. <code>HX-Toast</code> / <code>HX-Trigger</code> headers</h2>
       <p>
         The simulated server can notify the client by returning special
         headers in the response, without touching the HTML.
       </p>
       <div class="flex flex-wrap gap-2">
         <button class="btn"
-          hx-post="/demo/notify-trigger"
+          hx-post="/demo/toast-trigger"
           hx-swap="none">
-          Response with <code>HX-Trigger: hx-notify</code>
+          Response with <code>HX-Trigger: hx-toast</code>
         </button>
 
         <button class="btn"
-          hx-post="/demo/notify-header"
+          hx-post="/demo/toast-header"
           hx-swap="none">
-          Response with <code>HX-Notify</code>
+          Response with <code>HX-Toast</code>
         </button>
       </div>
     </div>
@@ -65,7 +65,7 @@
 
   <div class="card card-border bg-base-100 shadow-sm">
     <div class="card-body">
-      <h2 class="card-title text-base">3. <code>hx-notify</code> / <code>hx-notify-fail</code> attributes</h2>
+      <h2 class="card-title text-base">3. <code>hx-toast</code> / <code>hx-toast-fail</code> attributes</h2>
       <p>
         <code>/demo/save</code> is simulated by the server and responds
         200 OK, showing the success notification. <code>/demo/save-error</code>
@@ -75,27 +75,27 @@
         <button class="btn btn-primary"
           hx-post="/demo/save"
           hx-swap="none"
-          hx-notify="Document saved"
-          hx-notify-title="Saved"
-          hx-notify-type="success">
+          hx-toast="Document saved"
+          hx-toast-title="Saved"
+          hx-toast-type="success">
           Save (success)
         </button>
 
         <button class="btn btn-error"
           hx-post="/demo/save-error"
           hx-swap="none"
-          hx-notify="Document saved"
-          hx-notify-fail="Unable to save the document"
-          hx-notify-fail-title="Error"
-          hx-notify-fail-type="error">
+          hx-toast="Document saved"
+          hx-toast-fail="Unable to save the document"
+          hx-toast-fail-title="Error"
+          hx-toast-fail-type="error">
           Save (failure)
         </button>
 
         <button class="btn"
           hx-post="/demo/save"
           hx-swap="none"
-          hx-notify="Saved with short timeout"
-          hx-notify-timeout="2000">
+          hx-toast="Saved with short timeout"
+          hx-toast-timeout="2000">
           Short timeout (2s)
         </button>
       </div>
@@ -104,29 +104,29 @@
 
   <div class="card card-border bg-base-100 shadow-sm">
     <div class="card-body">
-      <h2 class="card-title text-base">4. JavaScript API — <code>htmx.notify(...)</code></h2>
+      <h2 class="card-title text-base">4. JavaScript API — <code>htmx.toast(...)</code></h2>
       <div class="flex flex-wrap gap-2">
-        <button class="btn" onclick="htmx.notify('Simple notification')">Simple message</button>
+        <button class="btn" onclick="htmx.toast('Simple notification')">Simple message</button>
 
-        <button class="btn btn-success" onclick="htmx.notify({
+        <button class="btn btn-success" onclick="htmx.toast({
           type: 'success',
           title: 'Saved',
           message: 'The document was saved successfully'
         })">Success</button>
 
-        <button class="btn btn-error" onclick="htmx.notify({
+        <button class="btn btn-error" onclick="htmx.toast({
           type: 'error',
           title: 'Error',
           message: 'Unable to save the document'
         })">Error</button>
 
-        <button class="btn btn-warning" onclick="htmx.notify({
+        <button class="btn btn-warning" onclick="htmx.toast({
           type: 'warning',
           title: 'Warning',
           message: 'Your session is about to expire'
         })">Warning</button>
 
-        <button class="btn btn-info" onclick="htmx.notify({
+        <button class="btn btn-info" onclick="htmx.toast({
           type: 'info',
           title: 'Information',
           message: 'A new version is available'
@@ -139,13 +139,13 @@
     <div class="card-body">
       <h2 class="card-title text-base">5. Custom / persistent timeout</h2>
       <div class="flex flex-wrap gap-2">
-        <button class="btn btn-info" onclick="htmx.notify({
+        <button class="btn btn-info" onclick="htmx.toast({
           type: 'info',
           message: 'This notification lasts 10 seconds',
           timeout: 10000
         })">10s timeout</button>
 
-        <button class="btn btn-warning" onclick="htmx.notify({
+        <button class="btn btn-warning" onclick="htmx.toast({
           type: 'warning',
           title: 'Persistent',
           message: 'This notification does not close on its own',
@@ -159,7 +159,7 @@
     <div class="card-body">
       <h2 class="card-title text-base">6. Notifications with an action</h2>
       <div class="flex flex-wrap gap-2">
-        <button class="btn btn-success" onclick="htmx.notify({
+        <button class="btn btn-success" onclick="htmx.toast({
           title: 'Import complete',
           message: 'Review the imported records',
           type: 'success',
@@ -167,7 +167,7 @@
           actionHref: '#'
         })">Action with link</button>
 
-        <button class="btn btn-success" onclick="htmx.notify({
+        <button class="btn btn-success" onclick="htmx.toast({
           title: 'Import complete',
           message: 'Review the imported records',
           type: 'success',
@@ -184,7 +184,7 @@
     <div class="card-body">
       <h2 class="card-title text-base">7. Rich HTML in the message</h2>
       <div class="flex flex-wrap gap-2">
-        <button class="btn btn-info" onclick="htmx.notify({
+        <button class="btn btn-info" onclick="htmx.toast({
           type: 'info',
           title: 'News',
           html: 'New feature available: <strong>dark mode</strong>. <a href=\'#\'>See details</a>'
@@ -272,7 +272,7 @@
       contact.email = params.email;
 
       headers["HX-Trigger"] = JSON.stringify({
-        "hx-notify": {
+        "hx-toast": {
           title: "Saved",
           message: "Contact updated successfully",
           type: "success",
@@ -286,11 +286,11 @@
     contactCard.innerHTML = displayTemplate(contact);
     htmx.process(contactCard);
 
-    // --- 2. HX-Notify / HX-Trigger headers ---------------------------------
+    // --- 2. HX-Toast / HX-Trigger headers ---------------------------------
 
-    onPost("/demo/notify-trigger", function (request, params, headers) {
+    onPost("/demo/toast-trigger", function (request, params, headers) {
       headers["HX-Trigger"] = JSON.stringify({
-        "hx-notify": {
+        "hx-toast": {
           title: "Import complete",
           message: "42 new records were imported",
           type: "success",
@@ -298,14 +298,14 @@
       });
     });
 
-    onPost("/demo/notify-header", function (request, params, headers) {
-      headers["HX-Notify"] = "A new version is available";
-      headers["HX-Notify-Type"] = "info";
-      headers["HX-Notify-Title"] = "Information";
-      headers["HX-Notify-Timeout"] = "8000";
+    onPost("/demo/toast-header", function (request, params, headers) {
+      headers["HX-Toast"] = "A new version is available";
+      headers["HX-Toast-Type"] = "info";
+      headers["HX-Toast-Title"] = "Information";
+      headers["HX-Toast-Timeout"] = "8000";
     });
 
-    // --- 3. hx-notify / hx-notify-fail attributes ---------------------------
+    // --- 3. hx-toast / hx-toast-fail attributes ---------------------------
 
     onPost("/demo/save", function () {});
     fail("POST", "/demo/save-error", 500, function () {
@@ -324,7 +324,7 @@
       const types = ["info", "success", "warning", "error", "info"];
       types.forEach(function (type, i) {
         setTimeout(function () {
-          htmx.notify({
+          htmx.toast({
             type: type,
             title: "Notification " + (i + 1),
             message: "This is notification number " + (i + 1),

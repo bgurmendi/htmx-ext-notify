@@ -1,5 +1,5 @@
 (function () {
-  const EXTENSION_NAME = "notify";
+  const EXTENSION_NAME = "toast";
 
   const DEFAULTS = {
     timeout: 5000,
@@ -19,12 +19,12 @@
     injectStyles();
 
     layer = document.createElement("dialog");
-    layer.className = "hx-notify-layer";
+    layer.className = "hx-toast-layer";
     layer.setAttribute("aria-live", "polite");
 
     layer.innerHTML = `
-      <div class="hx-notify-wrapper" data-hx-notify-position="${DEFAULTS.position}">
-        <button type="button" class="hx-notify-dismiss-all" aria-label="Descartar todas las notificaciones">
+      <div class="hx-toast-wrapper" data-hx-toast-position="${DEFAULTS.position}">
+        <button type="button" class="hx-toast-dismiss-all" aria-label="Descartar todas las notificaciones">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M3 6h18"/>
             <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
@@ -32,27 +32,27 @@
             <line x1="10" y1="11" x2="10" y2="17"/>
             <line x1="14" y1="11" x2="14" y2="17"/>
           </svg>
-          <span class="hx-notify-dismiss-all-tooltip">Descartar todas</span>
+          <span class="hx-toast-dismiss-all-tooltip">Descartar todas</span>
         </button>
 
-        <div class="hx-notify-stack"></div>
+        <div class="hx-toast-stack"></div>
       </div>
     `;
 
     document.body.appendChild(layer);
 
-    stack = layer.querySelector(".hx-notify-stack");
+    stack = layer.querySelector(".hx-toast-stack");
 
     layer.addEventListener("click", function (event) {
-      if (event.target.closest(".hx-notify-dismiss-all")) {
+      if (event.target.closest(".hx-toast-dismiss-all")) {
         dismissAll();
         return;
       }
 
-      const button = event.target.closest("[data-hx-notify-dismiss]");
+      const button = event.target.closest("[data-hx-toast-dismiss]");
       if (!button) return;
 
-      const notification = button.closest(".hx-notify");
+      const notification = button.closest(".hx-toast");
       if (notification) dismiss(notification);
     });
   }
@@ -68,7 +68,7 @@
     layer.show();
   }
 
-  function notify(input) {
+  function toast(input) {
     install();
     openLayer();
 
@@ -81,11 +81,11 @@
     });
 
     requestAnimationFrame(function () {
-      item.classList.add("hx-notify-visible");
+      item.classList.add("hx-toast-visible");
     });
 
     if (options.timeout > 0) {
-      item._hxNotifyTimer = setTimeout(function () {
+      item._hxToastTimer = setTimeout(function () {
         dismiss(item);
       }, options.timeout);
     }
@@ -117,28 +117,28 @@
 
   function render(options) {
     const item = document.createElement("article");
-    item.className = "hx-notify";
-    item.dataset.hxNotifyType = options.type;
+    item.className = "hx-toast";
+    item.dataset.hxToastType = options.type;
     item.setAttribute("role", options.type === "error" ? "alert" : "status");
 
     const body = document.createElement("div");
-    body.className = "hx-notify-body";
+    body.className = "hx-toast-body";
 
     if (options.title) {
       const title = document.createElement("strong");
-      title.className = "hx-notify-title";
+      title.className = "hx-toast-title";
       title.textContent = options.title;
       body.appendChild(title);
     }
 
     if (options.html) {
       const content = document.createElement("div");
-      content.className = "hx-notify-message";
+      content.className = "hx-toast-message";
       content.innerHTML = options.html;
       body.appendChild(content);
     } else {
       const message = document.createElement("p");
-      message.className = "hx-notify-message";
+      message.className = "hx-toast-message";
       message.textContent = options.message;
       body.appendChild(message);
     }
@@ -147,20 +147,20 @@
 
     const close = document.createElement("button");
     close.type = "button";
-    close.className = "hx-notify-close";
+    close.className = "hx-toast-close";
     close.setAttribute("aria-label", "Descartar");
-    close.setAttribute("data-hx-notify-dismiss", "");
+    close.setAttribute("data-hx-toast-dismiss", "");
     close.textContent = "×";
     item.appendChild(close);
 
     if (options.actionText && (options.actionHref || options.actionHxGet)) {
       const actions = document.createElement("div");
-      actions.className = "hx-notify-actions";
+      actions.className = "hx-toast-actions";
 
       const action = document.createElement(
         options.actionHref ? "a" : "button",
       );
-      action.className = "hx-notify-action";
+      action.className = "hx-toast-action";
       action.textContent = options.actionText;
 
       if (options.actionHref) {
@@ -184,11 +184,11 @@
   }
 
   function dismiss(item) {
-    if (!item || item.classList.contains("hx-notify-leaving")) return;
+    if (!item || item.classList.contains("hx-toast-leaving")) return;
 
-    clearTimeout(item._hxNotifyTimer);
+    clearTimeout(item._hxToastTimer);
 
-    item.classList.add("hx-notify-leaving");
+    item.classList.add("hx-toast-leaving");
 
     item.addEventListener(
       "animationend",
@@ -202,11 +202,11 @@
   }
 
   function dismissAll() {
-    stack.querySelectorAll(".hx-notify").forEach(dismiss);
+    stack.querySelectorAll(".hx-toast").forEach(dismiss);
   }
 
   function limit() {
-    const items = [...stack.querySelectorAll(".hx-notify")];
+    const items = [...stack.querySelectorAll(".hx-toast")];
     const excess = items.length - DEFAULTS.max;
 
     if (excess <= 0) return;
@@ -219,13 +219,13 @@
   function animateStackChange(mutator) {
     const before = new Map();
 
-    stack.querySelectorAll(".hx-notify").forEach(function (el) {
+    stack.querySelectorAll(".hx-toast").forEach(function (el) {
       before.set(el, el.getBoundingClientRect());
     });
 
     mutator();
 
-    stack.querySelectorAll(".hx-notify").forEach(function (el) {
+    stack.querySelectorAll(".hx-toast").forEach(function (el) {
       const first = before.get(el);
       if (!first) return;
 
@@ -258,44 +258,44 @@
     const xhr = event.detail.xhr;
     const ok = event.detail.successful;
 
-    const headerNotify = xhr.getResponseHeader("HX-Notify");
+    const headerToast = xhr.getResponseHeader("HX-Toast");
 
-    if (headerNotify) {
-      notify({
-        message: headerNotify,
+    if (headerToast) {
+      toast({
+        message: headerToast,
         type:
-          xhr.getResponseHeader("HX-Notify-Type") || (ok ? "success" : "error"),
-        title: xhr.getResponseHeader("HX-Notify-Title") || "",
+          xhr.getResponseHeader("HX-Toast-Type") || (ok ? "success" : "error"),
+        title: xhr.getResponseHeader("HX-Toast-Title") || "",
         timeout:
-          Number(xhr.getResponseHeader("HX-Notify-Timeout")) ||
+          Number(xhr.getResponseHeader("HX-Toast-Timeout")) ||
           DEFAULTS.timeout,
       });
       return;
     }
 
-    const message = ok ? attr(elt, "hx-notify") : attr(elt, "hx-notify-fail");
+    const message = ok ? attr(elt, "hx-toast") : attr(elt, "hx-toast-fail");
     if (!message) return;
 
-    notify({
+    toast({
       message,
       type: ok
-        ? attr(elt, "hx-notify-type") || "success"
-        : attr(elt, "hx-notify-fail-type") || "error",
+        ? attr(elt, "hx-toast-type") || "success"
+        : attr(elt, "hx-toast-fail-type") || "error",
       title: ok
-        ? attr(elt, "hx-notify-title") || ""
-        : attr(elt, "hx-notify-fail-title") || "",
-      timeout: Number(attr(elt, "hx-notify-timeout")) || DEFAULTS.timeout,
+        ? attr(elt, "hx-toast-title") || ""
+        : attr(elt, "hx-toast-fail-title") || "",
+      timeout: Number(attr(elt, "hx-toast-timeout")) || DEFAULTS.timeout,
     });
   }
 
   function injectStyles() {
-    if (document.querySelector("#hx-notify-styles")) return;
+    if (document.querySelector("#hx-toast-styles")) return;
 
     const style = document.createElement("style");
-    style.id = "hx-notify-styles";
+    style.id = "hx-toast-styles";
 
     style.textContent = `
-      .hx-notify-layer {
+      .hx-toast-layer {
         position: fixed;
         inset: 0;
         z-index: 2000;
@@ -311,11 +311,11 @@
         pointer-events: none;
       }
 
-      .hx-notify-layer::backdrop {
+      .hx-toast-layer::backdrop {
         display: none;
       }
 
-      .hx-notify-wrapper {
+      .hx-toast-wrapper {
         position: fixed;
         top: 1rem;
         left: 50%;
@@ -328,7 +328,7 @@
         pointer-events: none;
       }
 
-      .hx-notify-stack {
+      .hx-toast-stack {
         display: flex;
         flex-direction: column;
         width: 100%;
@@ -336,7 +336,7 @@
         pointer-events: none;
       }
 
-      .hx-notify {
+      .hx-toast {
         position: relative;
         pointer-events: auto;
         padding: 0.875rem 2.5rem 0.875rem 1rem;
@@ -349,25 +349,25 @@
         transform: translateY(-0.75rem) scale(0.98);
       }
 
-      .hx-notify-visible {
-        animation: hx-notify-enter 170ms ease-out forwards;
+      .hx-toast-visible {
+        animation: hx-toast-enter 170ms ease-out forwards;
       }
 
-      .hx-notify-leaving {
+      .hx-toast-leaving {
         pointer-events: none;
-        animation: hx-notify-leave 140ms ease-in forwards;
+        animation: hx-toast-leave 140ms ease-in forwards;
       }
 
-      .hx-notify-title {
+      .hx-toast-title {
         display: block;
         margin-bottom: 0.25rem;
       }
 
-      .hx-notify-message {
+      .hx-toast-message {
         margin: 0;
       }
 
-      .hx-notify-close {
+      .hx-toast-close {
         position: absolute;
         top: 0.45rem;
         right: 0.55rem;
@@ -382,22 +382,22 @@
         line-height: 1;
       }
 
-      .hx-notify-close:hover {
+      .hx-toast-close:hover {
         background: color-mix(in srgb, CanvasText 10%, transparent);
       }
 
-      .hx-notify-actions {
+      .hx-toast-actions {
         display: flex;
         justify-content: flex-end;
         gap: 0.5rem;
         margin-top: 0.75rem;
       }
 
-      .hx-notify-action {
+      .hx-toast-action {
         cursor: pointer;
       }
 
-      .hx-notify-dismiss-all {
+      .hx-toast-dismiss-all {
         align-self: flex-end;
         position: relative;
         margin-right: 0.55rem;
@@ -418,15 +418,15 @@
         box-shadow: 0 0.5rem 1.5rem rgb(0 0 0 / 18%);
       }
 
-      .hx-notify-dismiss-all:has(~ .hx-notify-stack .hx-notify:nth-child(2)) {
+      .hx-toast-dismiss-all:has(~ .hx-toast-stack .hx-toast:nth-child(2)) {
         display: inline-flex;
       }
 
-      .hx-notify-dismiss-all:hover {
+      .hx-toast-dismiss-all:hover {
         background: color-mix(in srgb, CanvasText 10%, transparent);
       }
 
-      .hx-notify-dismiss-all-tooltip {
+      .hx-toast-dismiss-all-tooltip {
         position: absolute;
         top: 50%;
         right: calc(100% + 0.5rem);
@@ -443,28 +443,28 @@
         transition: opacity 120ms ease;
       }
 
-      .hx-notify-dismiss-all:hover .hx-notify-dismiss-all-tooltip,
-      .hx-notify-dismiss-all:focus-visible .hx-notify-dismiss-all-tooltip {
+      .hx-toast-dismiss-all:hover .hx-toast-dismiss-all-tooltip,
+      .hx-toast-dismiss-all:focus-visible .hx-toast-dismiss-all-tooltip {
         opacity: 1;
       }
 
-      .hx-notify[data-hx-notify-type="success"] {
+      .hx-toast[data-hx-toast-type="success"] {
         border-left: 0.35rem solid #22c55e;
       }
 
-      .hx-notify[data-hx-notify-type="error"] {
+      .hx-toast[data-hx-toast-type="error"] {
         border-left: 0.35rem solid #ef4444;
       }
 
-      .hx-notify[data-hx-notify-type="warning"] {
+      .hx-toast[data-hx-toast-type="warning"] {
         border-left: 0.35rem solid #f59e0b;
       }
 
-      .hx-notify[data-hx-notify-type="info"] {
+      .hx-toast[data-hx-toast-type="info"] {
         border-left: 0.35rem solid #3b82f6;
       }
 
-      @keyframes hx-notify-enter {
+      @keyframes hx-toast-enter {
         from {
           opacity: 0;
           transform: translateY(-0.75rem) scale(0.98);
@@ -476,7 +476,7 @@
         }
       }
 
-      @keyframes hx-notify-leave {
+      @keyframes hx-toast-leave {
         from {
           opacity: 1;
           transform: translateY(0) scale(1);
@@ -489,7 +489,7 @@
       }
 
       @media (max-width: 640px) {
-        .hx-notify-wrapper {
+        .hx-toast-wrapper {
           left: 1rem;
           right: 1rem;
           transform: none;
@@ -501,14 +501,14 @@
     document.head.appendChild(style);
   }
 
-  window.htmxNotify = notify;
+  window.htmxToast = toast;
 
-  document.addEventListener("hx-notify", function (event) {
-    notify(event.detail || {});
+  document.addEventListener("hx-toast", function (event) {
+    toast(event.detail || {});
   });
 
   if (window.htmx) {
-    window.htmx.notify = notify;
+    window.htmx.toast = toast;
 
     window.htmx.defineExtension(EXTENSION_NAME, {
       init: install,

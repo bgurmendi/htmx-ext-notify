@@ -41,7 +41,7 @@ async function closePage(page) {
   await page.close();
 }
 
-test("hx-notify attribute shows a success notification after a successful request", async (t) => {
+test("hx-toast attribute shows a success notification after a successful request", async (t) => {
   const page = await newPage(t.name);
   await page.goto(`${baseURL}/demo.html`);
   await disableAnimations(page);
@@ -49,17 +49,17 @@ test("hx-notify attribute shows a success notification after a successful reques
   await page.locator('button:has-text("Save (success)")').click();
   await shoot(page, t.name, "after-save");
 
-  const notification = page.locator('.hx-notify[data-hx-notify-type="success"]');
+  const notification = page.locator('.hx-toast[data-hx-toast-type="success"]');
   await assert.doesNotReject(notification.waitFor({ timeout: 2000 }));
 
   assert.strictEqual(await notification.getAttribute("role"), "status");
-  assert.match(await notification.locator(".hx-notify-title").innerText(), /Saved/);
-  assert.match(await notification.locator(".hx-notify-message").innerText(), /Document saved/);
+  assert.match(await notification.locator(".hx-toast-title").innerText(), /Saved/);
+  assert.match(await notification.locator(".hx-toast-message").innerText(), /Document saved/);
 
   await closePage(page);
 });
 
-test("hx-notify-fail attribute shows an error notification after a failed request", async (t) => {
+test("hx-toast-fail attribute shows an error notification after a failed request", async (t) => {
   const page = await newPage(t.name);
   await page.goto(`${baseURL}/demo.html`);
   await disableAnimations(page);
@@ -67,20 +67,20 @@ test("hx-notify-fail attribute shows an error notification after a failed reques
   await page.locator('button:has-text("Save (failure)")').click();
   await shoot(page, t.name, "after-save-error");
 
-  const notification = page.locator('.hx-notify[data-hx-notify-type="error"]');
+  const notification = page.locator('.hx-toast[data-hx-toast-type="error"]');
   await assert.doesNotReject(notification.waitFor({ timeout: 2000 }));
 
   assert.strictEqual(await notification.getAttribute("role"), "alert");
-  assert.match(await notification.locator(".hx-notify-title").innerText(), /Error/);
+  assert.match(await notification.locator(".hx-toast-title").innerText(), /Error/);
   assert.match(
-    await notification.locator(".hx-notify-message").innerText(),
+    await notification.locator(".hx-toast-message").innerText(),
     /Unable to save the document/,
   );
 
   await closePage(page);
 });
 
-test("HX-Trigger response header with an hx-notify event creates a notification", async (t) => {
+test("HX-Trigger response header with an hx-toast event creates a notification", async (t) => {
   const page = await newPage(t.name);
   await page.goto(`${baseURL}/demo.html`);
   await disableAnimations(page);
@@ -88,39 +88,39 @@ test("HX-Trigger response header with an hx-notify event creates a notification"
   await page.locator('button:has-text("Response with")').first().click();
   await shoot(page, t.name, "after-trigger");
 
-  const notification = page.locator('.hx-notify[data-hx-notify-type="success"]');
+  const notification = page.locator('.hx-toast[data-hx-toast-type="success"]');
   await assert.doesNotReject(notification.waitFor({ timeout: 2000 }));
 
-  assert.match(await notification.locator(".hx-notify-title").innerText(), /Import complete/);
+  assert.match(await notification.locator(".hx-toast-title").innerText(), /Import complete/);
   assert.match(
-    await notification.locator(".hx-notify-message").innerText(),
+    await notification.locator(".hx-toast-message").innerText(),
     /42 new records were imported/,
   );
 
   await closePage(page);
 });
 
-test("HX-Notify response headers create a notification without any hx-notify attribute", async (t) => {
+test("HX-Toast response headers create a notification without any hx-toast attribute", async (t) => {
   const page = await newPage(t.name);
   await page.goto(`${baseURL}/demo.html`);
   await disableAnimations(page);
 
-  await page.locator('button:has-text("Response with HX-Notify")').click();
-  await shoot(page, t.name, "after-header-notify");
+  await page.locator('button:has-text("Response with HX-Toast")').click();
+  await shoot(page, t.name, "after-header-toast");
 
-  const notification = page.locator('.hx-notify[data-hx-notify-type="info"]');
+  const notification = page.locator('.hx-toast[data-hx-toast-type="info"]');
   await assert.doesNotReject(notification.waitFor({ timeout: 2000 }));
 
-  assert.match(await notification.locator(".hx-notify-title").innerText(), /Information/);
+  assert.match(await notification.locator(".hx-toast-title").innerText(), /Information/);
   assert.match(
-    await notification.locator(".hx-notify-message").innerText(),
+    await notification.locator(".hx-toast-message").innerText(),
     /A new version is available/,
   );
 
   await closePage(page);
 });
 
-test("htmx.notify(...) JS API creates a notification for each type", async (t) => {
+test("htmx.toast(...) JS API creates a notification for each type", async (t) => {
   const page = await newPage(t.name);
   await page.goto(`${baseURL}/demo.html`);
   await disableAnimations(page);
@@ -129,7 +129,7 @@ test("htmx.notify(...) JS API creates a notification for each type", async (t) =
 
   for (const type of types) {
     await page.locator(`button:has-text("${type}")`).first().click();
-    const notification = page.locator(`.hx-notify[data-hx-notify-type="${type.toLowerCase()}"]`);
+    const notification = page.locator(`.hx-toast[data-hx-toast-type="${type.toLowerCase()}"]`);
     await assert.doesNotReject(
       notification.waitFor({ timeout: 2000 }),
       `${type} notification should appear`,
@@ -149,8 +149,8 @@ test("custom timeout dismisses a notification automatically, persistent ones sta
   await page.locator('button:has-text("Short timeout (2s)")').click();
   await page.locator('button:has-text("Persistent (timeout 0)")').click();
 
-  const shortLived = page.locator('.hx-notify:has-text("Saved with short timeout")');
-  const persistent = page.locator('.hx-notify:has-text("This notification does not close on its own")');
+  const shortLived = page.locator('.hx-toast:has-text("Saved with short timeout")');
+  const persistent = page.locator('.hx-toast:has-text("This notification does not close on its own")');
 
   await assert.doesNotReject(shortLived.waitFor({ timeout: 2000 }));
   await assert.doesNotReject(persistent.waitFor({ timeout: 2000 }));
@@ -173,11 +173,11 @@ test("notification with an hx-get action performs a request into the target", as
 
   await page.locator('button:has-text("Action with hx-get")').click();
 
-  const notification = page.locator('.hx-notify:has-text("Import complete")');
+  const notification = page.locator('.hx-toast:has-text("Import complete")');
   await assert.doesNotReject(notification.waitFor({ timeout: 2000 }));
   await shoot(page, t.name, "notification-with-action");
 
-  await notification.locator(".hx-notify-action").click();
+  await notification.locator(".hx-toast-action").click();
 
   await assert.doesNotReject(
     page.locator("#imports-result").locator("text=Imported records: 42").waitFor({ timeout: 2000 }),
@@ -194,10 +194,10 @@ test("notification with an action link renders an anchor pointing to actionHref"
 
   await page.locator('button:has-text("Action with link")').click();
 
-  const notification = page.locator('.hx-notify:has-text("Import complete")');
+  const notification = page.locator('.hx-toast:has-text("Import complete")');
   await assert.doesNotReject(notification.waitFor({ timeout: 2000 }));
 
-  const action = notification.locator("a.hx-notify-action");
+  const action = notification.locator("a.hx-toast-action");
   assert.strictEqual(await action.count(), 1, "action should render as an <a> element");
   assert.match(await action.innerText(), /View/);
 
@@ -211,12 +211,12 @@ test("notification with rich HTML renders markup in the message", async (t) => {
 
   await page.locator('button:has-text("Notification with HTML")').click();
 
-  const notification = page.locator('.hx-notify:has-text("News")');
+  const notification = page.locator('.hx-toast:has-text("News")');
   await assert.doesNotReject(notification.waitFor({ timeout: 2000 }));
   await shoot(page, t.name, "html-notification");
 
-  assert.strictEqual(await notification.locator(".hx-notify-message strong").count(), 1);
-  assert.strictEqual(await notification.locator(".hx-notify-message a").count(), 1);
+  assert.strictEqual(await notification.locator(".hx-toast-message strong").count(), 1);
+  assert.strictEqual(await notification.locator(".hx-toast-message a").count(), 1);
 
   await closePage(page);
 });
@@ -228,11 +228,11 @@ test("the close button dismisses a single notification", async (t) => {
 
   await page.locator('button:has-text("Simple message")').click();
 
-  const notification = page.locator('.hx-notify:has-text("Simple notification")');
+  const notification = page.locator('.hx-toast:has-text("Simple notification")');
   await assert.doesNotReject(notification.waitFor({ timeout: 2000 }));
   await shoot(page, t.name, "before-close");
 
-  await notification.locator("[data-hx-notify-dismiss]").click();
+  await notification.locator("[data-hx-toast-dismiss]").click();
 
   await assert.doesNotReject(notification.waitFor({ state: "detached", timeout: 2000 }));
   await shoot(page, t.name, "after-close");
@@ -248,19 +248,19 @@ test("multiple notifications stack and the 'dismiss all' button clears them all"
   await page.locator("#burst-btn").click();
 
   await assert.doesNotReject(async () => {
-    await page.waitForFunction(() => document.querySelectorAll(".hx-notify").length === 5, {
+    await page.waitForFunction(() => document.querySelectorAll(".hx-toast").length === 5, {
       timeout: 3000,
     });
   });
   await shoot(page, t.name, "stack-of-five");
 
-  const dismissAll = page.locator(".hx-notify-dismiss-all");
+  const dismissAll = page.locator(".hx-toast-dismiss-all");
   await assert.doesNotReject(dismissAll.waitFor({ timeout: 2000 }));
 
   await dismissAll.click();
 
   await assert.doesNotReject(async () => {
-    await page.waitForFunction(() => document.querySelectorAll(".hx-notify").length === 0, {
+    await page.waitForFunction(() => document.querySelectorAll(".hx-toast").length === 0, {
       timeout: 2000,
     });
   });
@@ -281,7 +281,7 @@ test("saving the click-to-edit form shows a server-triggered notification", asyn
   await page.locator("#firstName").fill("Ada");
   await page.locator("#contact-card button:has-text(\"Save\")").click();
 
-  const notification = page.locator('.hx-notify:has-text("Contact updated successfully")');
+  const notification = page.locator('.hx-toast:has-text("Contact updated successfully")');
   await assert.doesNotReject(notification.waitFor({ timeout: 2000 }));
   await shoot(page, t.name, "saved");
 
