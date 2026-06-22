@@ -24,7 +24,7 @@
 
     layer.innerHTML = `
       <div class="hx-toast-wrapper" data-hx-toast-position="${DEFAULTS.position}">
-        <button type="button" class="hx-toast-dismiss-all" aria-label="Descartar todas las notificaciones">
+        <button type="button" class="hx-toast-dismiss-all" aria-label="Dismiss all notifications">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M3 6h18"/>
             <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
@@ -32,7 +32,7 @@
             <line x1="10" y1="11" x2="10" y2="17"/>
             <line x1="14" y1="11" x2="14" y2="17"/>
           </svg>
-          <span class="hx-toast-dismiss-all-tooltip">Descartar todas</span>
+          <span class="hx-toast-dismiss-all-tooltip">Dismiss all</span>
         </button>
 
         <div class="hx-toast-stack"></div>
@@ -63,7 +63,6 @@
       return;
     }
 
-    // Sube la capa de notificaciones por encima de otros dialogs propios.
     layer.close();
     layer.show();
   }
@@ -148,7 +147,7 @@
     const close = document.createElement("button");
     close.type = "button";
     close.className = "hx-toast-close";
-    close.setAttribute("aria-label", "Descartar");
+    close.setAttribute("aria-label", "Dismiss");
     close.setAttribute("data-hx-toast-dismiss", "");
     close.textContent = "×";
     item.appendChild(close);

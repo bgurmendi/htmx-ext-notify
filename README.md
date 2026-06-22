@@ -3,7 +3,7 @@
 [Repository](https://github.com/bgurmendi/htmx-ext-toast) · [Online demo](https://bgurmendi.github.io/htmx-ext-toast/demo.html)
 
 [![Tests](https://github.com/bgurmendi/htmx-ext-toast/actions/workflows/test.yml/badge.svg)](https://github.com/bgurmendi/htmx-ext-toast/actions/workflows/test.yml)
-[![Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/bgurmendi/htmx-ext-toast/develop/badges/coverage.json)](#code-coverage)
+[![Coverage](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/bgurmendi/htmx-ext-toast/main/badges/coverage.json)](#code-coverage)
 [![npm version](https://img.shields.io/npm/v/htmx-ext-toast.svg)](https://www.npmjs.com/package/htmx-ext-toast)
 
 A lightweight notification extension for htmx.
